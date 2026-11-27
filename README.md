@@ -38,6 +38,13 @@ request is in flight. All of it switches off under `prefers-reduced-motion: redu
 | Ticket-style booking confirmation | ![confirmation](screenshots/confirmation.png) | ![confirmation mobile](screenshots/confirmation-mobile.png) |
 | My bookings | ![bookings](screenshots/bookings.png) | ![bookings mobile](screenshots/bookings-mobile.png) |
 
+## Engineering
+
+- **API test suite:** 19 end-to-end tests (71 assertions) that start the real PHP front controller and drive it over HTTP: registration and sessions, validation, ownership checks, booking totals, validation, overbooking protection, privacy and cancellation with the 2 day rule. They run against SQLite so no database server is needed; real MySQL is covered by the smoke test below.
+- **Docker Compose:** MySQL 8.4, the PHP API and nginx serving the React client start with one command.
+- **CI (GitHub Actions):** PHP lint and tests on PHP 8.3, the client production build, and a Docker smoke test that boots the whole stack and checks health, registration and the session endpoint against real MySQL.
+- **Endpoints added in this round:** `POST /api/bookings/{id}/cancel` (seats return to the trip) and `GET /api/health`.
+
 ## Source code
 
 The full source code for this project - the React client, the PHP REST API, and the
